@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Landing Page Template
+
+A reusable landing-page starter built with Next.js App Router, React, TypeScript, and Tailwind CSS v4. The included Fieldwork content is demo content intended to be replaced for each real project.
+
+## Included
+
+- Responsive homepage with hero, featured products, benefits, FAQ, and calls to action
+- Sticky header with desktop navigation and an accessible mobile menu
+- Breadcrumb navigation and reusable page sections
+- Local typed product catalog
+- About and contact pages
+- Responsive footer with navigation and contact details
+- Tailwind CSS v4 theme tokens
+- ESLint and Prettier with Tailwind class sorting
+- Vercel-ready Next.js configuration
+
+This template does not include a CMS, API, database, checkout, authentication, analytics, or contact-form submission backend.
+
+## Requirements
+
+- Node.js 20.9.0 or later
+- npm
+
+The repository does not pin an exact Node.js version. Use a current supported Node.js LTS release.
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and start the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev          # Start the development server
+npm run build        # Create a production build
+npm run start        # Serve the production build
+npm run lint         # Run ESLint
+npm run format       # Format files with Prettier
+npm run format:check # Check formatting without changing files
+```
 
-## Learn More
+## Routes
 
-To learn more about Next.js, take a look at the following resources:
+| Route | Purpose |
+| --- | --- |
+| `/` | Main landing page with hero, featured products, benefits, FAQ, and CTA |
+| `/products` | Full local product catalog |
+| `/about` | Story, principles, and team/about content |
+| `/contact` | Contact information, address, and opening hours |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Product cards currently link to anchors on `/products`. There are no product-detail routes yet.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```text
+src/
+	app/
+		about/page.tsx       About route
+		contact/page.tsx     Contact route
+		products/page.tsx    Product catalog route
+		globals.css          Tailwind theme and global styles
+		layout.tsx           Metadata and shared application shell
+		page.tsx             Homepage
+	components/
+		breadcrumb.tsx       Accessible breadcrumb navigation
+		footer.tsx           Shared footer
+		header.tsx           Sticky site header
+		mobile-menu.tsx      Client-side mobile navigation
+		product-card.tsx     Product card UI
+		product-feed.tsx     Product grid
+		section.tsx           Shared page-section layout
+	lib/
+		products.ts          Typed local product data
+public/                   Static assets
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The `@/*` TypeScript alias resolves to `src/*`, so imports can use paths such as `@/components/header` and `@/lib/products`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Customization
+
+### Brand and metadata
+
+Update [src/app/layout.tsx](src/app/layout.tsx) to change:
+
+- Site name and title template
+- Default description
+- Document language, currently `pt-BR`
+- Shared header, main, and footer structure
+
+Replace the Fieldwork name, copy, contact details, address, phone number, email address, and currency before publishing.
+
+### Pages and components
+
+Edit the route files in [src/app](src/app) for page-specific copy and sections. Shared UI belongs in [src/components](src/components), so changes to the header, footer, breadcrumbs, or product cards can be reused across routes.
+
+### Product catalog
+
+Edit [src/lib/products.ts](src/lib/products.ts) to replace the sample catalog. Each product implements:
+
+```ts
+type Product = {
+	slug: string;
+	name: string;
+	category: string;
+	description: string;
+	price: string;
+	mark: string;
+	color: string;
+};
+```
+
+The current catalog is static and local. Replace it with a server-side data source only when the project has a defined API or CMS contract.
+
+### Styling
+
+Theme colors and global behavior are defined in [src/app/globals.css](src/app/globals.css). This project uses Tailwind CSS v4's CSS-first configuration through `@import "tailwindcss"` and `@theme`; it does not require a `tailwind.config.js` file.
+
+Preserve the existing semantic landmarks, visible focus states, keyboard-accessible mobile menu, and reduced-motion behavior when customizing the UI.
+
+### Assets and SEO
+
+Add local images, logos, fonts, and social preview assets under `public/` or an appropriate `src` directory. Use `next/image` for content images and update route metadata for each real page. Add an absolute production URL and Open Graph metadata when the brand and deployment URL are known.
+
+## Deployment
+
+Import the repository into [Vercel](https://vercel.com/) or deploy it to another platform that supports Next.js. The default build command is:
+
+```bash
+npm run build
+```
+
+No environment variables are currently required. Add and document them here when introducing a CMS, API, form provider, analytics, or other external service.
+
+## License
+
+This template is available under the [MIT License](LICENSE). Keep the license and copyright notice when redistributing it.
